@@ -1,0 +1,40 @@
+<script>
+    var connection = new WebSocket('ws://localhost:8080');
+
+    connection.onopen = function () {
+
+    };
+
+    // Log errors
+    connection.onerror = function (error) {
+        console.error('WebSocket Error ' + error);
+    };
+
+    // Log messages from the server
+    connection.onmessage = function (e) {
+        console.log('message from server', e.data);
+        //parse data
+        var data = JSON.parse(e.data)
+        //if e.data.typeOfChange == init, show init values
+        if (data.typeOfChange == 'init') {
+            document.getElementById("TotalCases").innerHTML = data.data.TotalCases;
+            document.getElementById("TotalDeaths").innerHTML = data.data.TotalDeaths;
+            document.getElementById("TotalRecovered").innerHTML = data.data.TotalRecovered;
+        }
+        //if others then sound effect
+    };
+
+    //person chooses a country
+
+    // connection.send({'country': 'india'});
+
+</script>
+<h1>TotalCases:
+    <div id="TotalCases">0</div>
+</h1>
+<h1>TotalDeaths:
+    <div id="TotalDeaths">0</div>
+</h1>
+<h1>TotalRecovered:
+    <div id="TotalRecovered">0</div>
+</h1>

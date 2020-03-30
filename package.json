@@ -1,0 +1,25 @@
+{
+  "name": "Covid_Tracker_API",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suhailsinghbains/Covid_Tracker_API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suhailsinghbains/Covid_Tracker_API/issues"
+  },
+  "homepage": "https://github.com/suhailsinghbains/Covid_Tracker_API#readme",
+  "dependencies": {
+    "request": "^2.88.2",
+    "uuid": "^7.0.2",
+    "ws": "^7.2.3"
+  }
+}

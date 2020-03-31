@@ -358,12 +358,6 @@
           $('#counterToCountrySrc').html('<b>CORONA Virus</b> Counter');  
         }
 
-        if ($(document).width() < 700){
-          mobileAnimate('days','#5FC9F8');
-        } else {
-          webAnimate('days','#5FC9F8');
-        }
-          
         //if others then sound effect
         if (data.typeOfChange == 'total') {
           document.getElementById("total").play();

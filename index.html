@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
+    <link rel="shortcut icon" href="assets/favicon.png">
 
     <title>Corona Virus - Counter</title>
 
@@ -323,32 +323,53 @@
 
         // }
 
-        
-        
+          
         //if others then sound effect
         if (data.typeOfChange == 'total') {
           document.getElementById("total").play();
-          $('#days ').animate({borderWidth: '10px'}, "slow");
-          $('#days ').animate({borderWidth: '4px'}, "slow");
-          $('#days h1').animate({fontSize: '60px'}, "slow");
-          $('#days h1').animate({fontSize: '48px'}, "slow");
+          if ($(document).width() < 700){
+            $('#days ').animate({borderWidth: '6px'}, "slow");
+            $('#days ').animate({borderWidth: '4px'}, "slow");
+            $('#days h1').animate({fontSize: '30px'}, "slow");
+            $('#days h1').animate({fontSize: '20px'}, "slow");
+          } else {
+            $('#days ').animate({borderWidth: '10px'}, "slow");
+            $('#days ').animate({borderWidth: '4px'}, "slow");
+            $('#days h1').animate({fontSize: '60px'}, "slow");
+            $('#days h1').animate({fontSize: '48px'}, "slow");
+          }
           
         }
 
         if (data.typeOfChange == 'death') {
           document.getElementById("death").play();
-          $('#hours ').animate({borderWidth: '10px'}, "slow");
-          $('#hours ').animate({borderWidth: '4px'}, "slow");
-          $('#hours h1').animate({fontSize: '60px'}, "slow");
-          $('#hours h1').animate({fontSize: '48px'}, "slow");
+          if ($(document).width() < 700){
+            $('#hours ').animate({borderWidth: '6px'}, "slow");
+            $('#hours ').animate({borderWidth: '4px'}, "slow");
+            $('#hours h1').animate({fontSize: '30px'}, "slow");
+            $('#hours h1').animate({fontSize: '20px'}, "slow");
+          } else {
+            $('#hours ').animate({borderWidth: '10px'}, "slow");
+            $('#hours ').animate({borderWidth: '4px'}, "slow");
+            $('#hours h1').animate({fontSize: '60px'}, "slow");
+            $('#hours h1').animate({fontSize: '48px'}, "slow");
+          }
         }
 
         if (data.typeOfChange == 'recover') {
           document.getElementById("recover").play();
           $('#minutes ').animate({borderWidth: '10px'}, "slow");
-          $('#minutes ').animate({borderWidth: '4px'}, "slow");
-          $('#minutes h1').animate({fontSize: '60px'}, "slow");
-          $('#minutes h1').animate({fontSize: '48px'}, "slow");
+          if ($(document).width() < 700){
+            $('#minutes ').animate({borderWidth: '6px'}, "slow");
+            $('#minutes ').animate({borderWidth: '4px'}, "slow");
+            $('#minutes h1').animate({fontSize: '30px'}, "slow");
+            $('#minutes h1').animate({fontSize: '20px'}, "slow");
+          } else {
+            $('#minutes ').animate({borderWidth: '10px'}, "slow");
+            $('#minutes ').animate({borderWidth: '4px'}, "slow");
+            $('#minutes h1').animate({fontSize: '60px'}, "slow");
+            $('#minutes h1').animate({fontSize: '48px'}, "slow");
+          }
         }
     };
 
@@ -363,5 +384,16 @@
     }
 
 </script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162283949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-162283949-1');
+</script>
+
 
 </html>

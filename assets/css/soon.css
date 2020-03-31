@@ -98,7 +98,14 @@ HEADER
 RESPONSIVE
 *******************************************************************************************************************************/
 @media only screen and (max-width: 520px) {
+    #timer{
+        flex-direction: column;
+    }
+    #timer > div{
+        margin: auto auto 10px auto;
+    }
     .timer_box{ margin: 0 12px 12px 0;}
+
     .tp-bullets{display: none;}
     #header .container{padding: 20px 0px 20px 0}
     #header-button{ display: none;}
@@ -115,12 +122,12 @@ RESPONSIVE
 }
 @media only screen and (max-width: 740px) {
     .timer_box{
-        width: 100px;
-        padding: 16px 0 0 0;
+        width: 150px;
+        padding: 16px  0 0;
         margin: 35px 12px;
     }
     #layer{display: none;}
-    .timer_box h1{ font-size: 28px;}
+    .timer_box h1{ font-size: 20px;}
     h1{ font-size: 36px;}
 }
 /******************************************************************************************************************************
@@ -635,4 +642,12 @@ PLUGINS
 .min-width {
     width: auto !important;
     margin: auto;
+}
+
+#timer{
+    display: flex;
+}
+
+#timer div {
+    flex: 1 0 auto;
 }

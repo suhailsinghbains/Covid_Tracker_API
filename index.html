@@ -364,10 +364,14 @@
             $('#minutes').html('<h1>' + data.data.TotalRecovered + '</H1><p>Recovered</p>');
 
         // }
+
+        
         
         //if others then sound effect
         if (data.typeOfChange == 'total') {
           document.getElementById("total").play();
+          $('#days ').animate({borderWidth: '10px'}, "slow");
+          $('#days ').animate({borderWidth: '4px'}, "slow");
           $('#days h1').animate({fontSize: '60px'}, "slow");
           $('#days h1').animate({fontSize: '48px'}, "slow");
           
@@ -375,12 +379,16 @@
 
         if (data.typeOfChange == 'death') {
           document.getElementById("death").play();
+          $('#hours ').animate({borderWidth: '10px'}, "slow");
+          $('#hours ').animate({borderWidth: '4px'}, "slow");
           $('#hours h1').animate({fontSize: '60px'}, "slow");
           $('#hours h1').animate({fontSize: '48px'}, "slow");
         }
 
         if (data.typeOfChange == 'recover') {
           document.getElementById("recover").play();
+          $('#minutes ').animate({borderWidth: '10px'}, "slow");
+          $('#minutes ').animate({borderWidth: '4px'}, "slow");
           $('#minutes h1').animate({fontSize: '60px'}, "slow");
           $('#minutes h1').animate({fontSize: '48px'}, "slow");
         }

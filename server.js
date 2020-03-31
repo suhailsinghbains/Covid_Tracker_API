@@ -108,6 +108,13 @@ wss.on('connection', ws => {
     ws.on('message', country => {
         console.log(userID)
         console.log(country)
+
+        if(country == 'heartbeat'){
+            ws.send(JSON.stringify({
+                typeOfChange: 'pong'
+            }));
+            return;
+        }
         
         clientAssociatedWithCountry[userID] = country;
         ws.send(JSON.stringify({

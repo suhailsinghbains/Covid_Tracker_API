@@ -299,9 +299,15 @@
     <script src="assets/js/soon/custom.js"></script>
   </body>
   <!-- END BODY -->
+  <script src="assets/js/wshb.js"></script>
 
   <script>
-    var connection = new WebSocket('wss://covid.elogstation.com:8080');
+    let connection = new window.WebsocketHeartbeatJs({
+        url: 'wss://covid.elogstation.com:8080',
+        pingTimeout: 10000,
+        pongTimeout: 5000,
+    });
+    // var connection = new WebSocket('wss://covid.elogstation.com:8080');
 
     connection.onopen = function () {
 
@@ -345,7 +351,10 @@
         //parse data
         var data = JSON.parse(e.data)
         //if e.data.typeOfChange == init, show init values
-        // if (data.typeOfChange == 'init') {
+        if (data.typeOfChange == 'pong') {
+          console.log('pong');
+          return;
+        }
             $('#days').html('<h1>' + data.data.TotalCases + '</H1><p>Total</p>');
             $('#hours').html('<h1>' + data.data.TotalDeaths + '</H1><p>Deaths</p>');
             $('#minutes').html('<h1>' + data.data.TotalRecovered + '</H1><p>Recovered</p>');

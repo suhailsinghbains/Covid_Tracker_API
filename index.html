@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-    <title>Counter - Coming Soon Theme</title>
+    <title>Corona Virus - Counter</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -123,19 +123,24 @@
 
         // }
         
-        // document.getElementById("total").play(); 
-        
         //if others then sound effect
         if (data.typeOfChange == 'total') {
           document.getElementById("total").play();
+          $('#days h1').animate({fontSize: '60px'}, "slow");
+          $('#days h1').animate({fontSize: '48px'}, "slow");
+          
         }
 
         if (data.typeOfChange == 'death') {
           document.getElementById("death").play();
+          $('#hours h1').animate({fontSize: '60px'}, "slow");
+          $('#hours h1').animate({fontSize: '48px'}, "slow");
         }
 
         if (data.typeOfChange == 'recover') {
           document.getElementById("recover").play();
+          $('#minutes h1').animate({fontSize: '60px'}, "slow");
+          $('#minutes h1').animate({fontSize: '48px'}, "slow");
         }
     };
 

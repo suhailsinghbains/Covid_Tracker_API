@@ -1,4 +1,104 @@
-<script>
+<!DOCTYPE html>
+<html>
+  <head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    <title>Counter - Coming Soon Theme</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/soon.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+  </head>
+
+
+  <!-- START BODY -->
+  <body class="nomobile">
+
+    <!-- START HEADER -->
+    <section id="header">
+        <div class="container">
+            <header>
+                <!-- HEADLINE -->
+                <h1 data-animated="GoIn"><b>CORONA Virus</b> counter</h1>
+            </header>
+
+            <!-- START TIMER -->
+            <div id="timer" data-animated="FadeIn">
+                <!-- <p id="message"></p> -->
+                <div id="days" class="timer_box"></div>
+                <div id="hours" class="timer_box"></div>
+                <div id="minutes" class="timer_box"></div>
+            </div>
+            <!-- END TIMER -->
+
+            <div class="col-lg-4 col-lg-offset-8 mt centered">
+              <select class="form-control min-width" id="selectedCountry" onchange="changeCountryByUser()">
+                <option value="all">World</option>
+                <option value="India">India</option>
+                <option value="Italy">Italy</option>
+              </select>
+            </div>
+            
+            
+        </div>
+        <!-- LAYER OVER THE SLIDER TO MAKE THE WHITE TEXTE READABLE -->
+        <div id="layer"></div>
+        <!-- END LAYER -->
+        <!-- START SLIDER -->
+        <div id="slider" class="rev_slider">
+            <ul>
+              <li data-transition="slidedown" data-slotamount="1" data-thumb="assets/img/slider/1.jpg">
+                <img src="assets/img/slider/1.jpg">
+              </li>
+            </ul>
+        </div>
+        <!-- END SLIDER -->
+    </section>
+    <!-- END HEADER -->
+
+    <audio id="total">
+      <source src="https://covid.elogstation.com/sounds/total.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="death">
+      <source src="https://covid.elogstation.com/sounds/death.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="recover">
+      <source src="https://covid.elogstation.com/sounds/recover.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/soon/plugins.js"></script>
+    <script src="assets/js/soon/jquery.themepunch.revolution.min.js"></script>
+    <script src="assets/js/soon/custom.js"></script>
+  </body>
+  <!-- END BODY -->
+
+  <script>
     var connection = new WebSocket('wss://covid.elogstation.com:8080');
 
     connection.onopen = function () {
@@ -16,12 +116,27 @@
         //parse data
         var data = JSON.parse(e.data)
         //if e.data.typeOfChange == init, show init values
-        if (data.typeOfChange == 'init') {
-            document.getElementById("TotalCases").innerHTML = data.data.TotalCases;
-            document.getElementById("TotalDeaths").innerHTML = data.data.TotalDeaths;
-            document.getElementById("TotalRecovered").innerHTML = data.data.TotalRecovered;
-        }
+        // if (data.typeOfChange == 'init') {
+            $('#days').html('<h1>' + data.data.TotalCases + '</H1><p>Total</p>');
+            $('#hours').html('<h1>' + data.data.TotalDeaths + '</H1><p>Deaths</p>');
+            $('#minutes').html('<h1>' + data.data.TotalRecovered + '</H1><p>Recovered</p>');
+
+        // }
+        
+        document.getElementById("total").play(); 
+        
         //if others then sound effect
+        if (data.typeOfChange == 'total') {
+          document.getElementById("total").play();
+        }
+
+        if (data.typeOfChange == 'death') {
+          document.getElementById("death").play();
+        }
+
+        if (data.typeOfChange == 'recover') {
+          document.getElementById("recover").play();
+        }
     };
 
     //person chooses a country
@@ -36,18 +151,4 @@
 
 </script>
 
-<select id="selectedCountry" onchange="changeCountryByUser()">
-    <option value="all">World</option>
-    <option value="India">India</option>
-    <option value="Italy">Italy</option>
-  </select>
-
-<h1>TotalCases:
-    <div id="TotalCases">0</div>
-</h1>
-<h1>TotalDeaths:
-    <div id="TotalDeaths">0</div>
-</h1>
-<h1>TotalRecovered:
-    <div id="TotalRecovered">0</div>
-</h1>
+</html>

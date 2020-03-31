@@ -291,6 +291,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-ui.js"></script>
 	<script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/soon/plugins.js"></script>
@@ -311,6 +312,33 @@
         console.error('WebSocket Error ' + error);
     };
 
+    function webAnimate(elementToAnimate, backgroundColorForElement){
+      $('#' + elementToAnimate).animate({
+        borderWidth: '10px',
+        backgroundColor: backgroundColorForElement
+      }, 1000);
+      $('#' + elementToAnimate).animate({
+        borderWidth: '4px',
+        backgroundColor: 'transparent'  
+      }, 1000);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '60px'}, 1000);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '48px'}, 1000);
+    }
+
+    function mobileAnimate(elementToAnimate, backgroundColorForElement){
+      $('#' + elementToAnimate).animate({
+        borderWidth: '6px',
+        backgroundColor: backgroundColorForElement
+      }, 800);
+      $('#' + elementToAnimate).animate({
+        borderWidth: '4px',
+        backgroundColor: 'transparent'  
+      }, 800);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '30px'}, 800);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '20px'}, 800);
+
+    }
+
     // Log messages from the server
     connection.onmessage = function (e) {
         console.log('message from server', e.data);
@@ -330,52 +358,41 @@
           $('#counterToCountrySrc').html('<b>CORONA Virus</b> Counter');  
         }
 
+        if ($(document).width() < 700){
+          mobileAnimate('days','#5FC9F8');
+        } else {
+          webAnimate('days','#5FC9F8');
+        }
           
         //if others then sound effect
         if (data.typeOfChange == 'total') {
           document.getElementById("total").play();
+
           if ($(document).width() < 700){
-            $('#days ').animate({borderWidth: '6px'}, "slow");
-            $('#days ').animate({borderWidth: '4px'}, "slow");
-            $('#days h1').animate({fontSize: '30px'}, "slow");
-            $('#days h1').animate({fontSize: '20px'}, "slow");
+            mobileAnimate('days','#5FC9F8 ');
           } else {
-            $('#days ').animate({borderWidth: '10px'}, "slow");
-            $('#days ').animate({borderWidth: '4px'}, "slow");
-            $('#days h1').animate({fontSize: '60px'}, "slow");
-            $('#days h1').animate({fontSize: '48px'}, "slow");
+            webAnimate('days','#5FC9F8');
           }
           
         }
 
         if (data.typeOfChange == 'death') {
           document.getElementById("death").play();
+          
           if ($(document).width() < 700){
-            $('#hours ').animate({borderWidth: '6px'}, "slow");
-            $('#hours ').animate({borderWidth: '4px'}, "slow");
-            $('#hours h1').animate({fontSize: '30px'}, "slow");
-            $('#hours h1').animate({fontSize: '20px'}, "slow");
+            mobileAnimate('hours','#FC3158');
           } else {
-            $('#hours ').animate({borderWidth: '10px'}, "slow");
-            $('#hours ').animate({borderWidth: '4px'}, "slow");
-            $('#hours h1').animate({fontSize: '60px'}, "slow");
-            $('#hours h1').animate({fontSize: '48px'}, "slow");
+            webAnimate('hours','#FC3158');
           }
         }
 
         if (data.typeOfChange == 'recover') {
           document.getElementById("recover").play();
-          $('#minutes ').animate({borderWidth: '10px'}, "slow");
+          
           if ($(document).width() < 700){
-            $('#minutes ').animate({borderWidth: '6px'}, "slow");
-            $('#minutes ').animate({borderWidth: '4px'}, "slow");
-            $('#minutes h1').animate({fontSize: '30px'}, "slow");
-            $('#minutes h1').animate({fontSize: '20px'}, "slow");
+            mobileAnimate('minutes','#53D769');
           } else {
-            $('#minutes ').animate({borderWidth: '10px'}, "slow");
-            $('#minutes ').animate({borderWidth: '4px'}, "slow");
-            $('#minutes h1').animate({fontSize: '60px'}, "slow");
-            $('#minutes h1').animate({fontSize: '48px'}, "slow");
+            webAnimate('minutes','#53D769');
           }
         }
     };

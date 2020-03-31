@@ -1,6 +1,26 @@
 const request = require('request');
 const WebSocket = require('ws')
 const uuid = require('uuid')
+var fs = require('fs');
+
+// read ssl certificate
+var privateKey = fs.readFileSync('/etc/letsencrypt/live/covid.elogstation.com/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/covid.elogstation.com/fullchain.pem', 'utf8');
+
+var credentials = { key: privateKey, cert: certificate };
+var https = require('https');
+
+//pass in your credentials to create an https server
+var httpsServer = https.createServer(credentials);
+httpsServer.listen(8080);
+
+var WebSocketServer = require('ws').Server;
+var wss = new WebSocketServer({
+    server: httpsServer
+});
+
+
+
 
 var HOST = 'https://covid19-server.chrismichael.now.sh/api/v1/AllReports';
 var infoByCountry = {};
@@ -70,7 +90,7 @@ function myFunc() {
 setInterval(myFunc, 10000);
 
 
-const wss = new WebSocket.Server({ port: 8080 })
+// const wss = new WebSocket.Server({ port: 8080 })
 // var globalws = null;
 var webSockets = {};
 wss.on('connection', ws => {

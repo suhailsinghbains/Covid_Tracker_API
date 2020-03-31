@@ -37,7 +37,8 @@
         <div class="container">
             <header>
                 <!-- HEADLINE -->
-                <h1 data-animated="GoIn"><b>CORONA Virus</b> counter</h1>
+                <h1 id="counterToCountrySrc" data-animated="GoIn"><b>CORONA Virus</b> Counter
+                </h1>
             </header>
 
             <!-- START TIMER -->
@@ -323,6 +324,12 @@
 
         // }
 
+        if(data.data.Country != null && data.data.Country != 'all'){
+              $('#counterToCountrySrc').html("<b>CORONA Virus</b> " + data.data.Country);  
+        } else {
+          $('#counterToCountrySrc').html('<b>CORONA Virus</b> Counter');  
+        }
+
           
         //if others then sound effect
         if (data.typeOfChange == 'total') {
@@ -379,6 +386,7 @@
 
     function changeCountryByUser() {
         var x = document.getElementById("selectedCountry").value;
+        // document.getElementById('counterToCountry').innerHTML = <b>CORONA Virus</b> + x;
         console.log(x);
         connection.send(x);
     }

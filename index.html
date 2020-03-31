@@ -26,9 +26,22 @@
 
     //person chooses a country
 
-    // connection.send({'country': 'india'});
+    // 
+
+    function changeCountryByUser() {
+        var x = document.getElementById("selectedCountry").value;
+        console.log(x);
+        connection.send({'country': x});
+    }
 
 </script>
+
+<select id="selectedCountry" onchange="changeCountryByUser()">
+    <option value="all">World</option>
+    <option value="india">India</option>
+    <option value="italy">Italy</option>
+  </select>
+
 <h1>TotalCases:
     <div id="TotalCases">0</div>
 </h1>

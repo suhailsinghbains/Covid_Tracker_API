@@ -106,12 +106,13 @@ wss.on('connection', ws => {
     });
 
     ws.on('message', data => {
-        console.log(userID, data.country)
-        clientAssociatedWithCountry[userID] = data.country;
+        var parsedData = JSON.parse(data);
+        console.log(userID, parsedData.country)
+        clientAssociatedWithCountry[userID] = parsedData.country;
         ws.send(JSON.stringify({
             typeOfChange: 'init',
-            country: data.country,
-            data: infoByCountry[data.country]
+            country: parsedData.country,
+            parsedData: infoByCountry[parsedData.country]
         }));
     });
 

@@ -113,7 +113,7 @@ wss.on('connection', ws => {
         ws.send(JSON.stringify({
             typeOfChange: 'init',
             country: country,
-            parsedData: infoByCountry[country]
+            data: infoByCountry[country]
         }));
     });
 

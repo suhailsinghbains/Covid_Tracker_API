@@ -106,8 +106,8 @@ wss.on('connection', ws => {
     });
 
     ws.on('message', data => {
-        var parsedData = JSON.parse(data);
-        console.log(userID, parsedData.country)
+        var parsedData = data;
+        console.log(userID, parsedData)
         clientAssociatedWithCountry[userID] = parsedData.country;
         ws.send(JSON.stringify({
             typeOfChange: 'init',

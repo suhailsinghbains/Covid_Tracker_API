@@ -39,6 +39,16 @@
                 <!-- HEADLINE -->
                 <h1 id="counterToCountrySrc" data-animated="GoIn"><b>CORONA Virus</b> Counter
                 </h1>
+                <p id="liveButton" style="position:absolute;
+                top:20px;
+                right:0;
+                margin: auto;
+                color: red;
+                background: white;
+                padding: 4px;
+               ">
+                <span class="glyphicon glyphicon-record"></span> LIVE</p>
+
             </header>
 
             <!-- START TIMER -->
@@ -272,6 +282,9 @@
             </ul>
         </div>
         <!-- END SLIDER -->
+
+        <h3><marquee id="newsFlash" style="color: white;"></marquee>
+        </h3>
     </section>
     <!-- END HEADER -->
 
@@ -304,10 +317,22 @@
   <script>
     let connection = new window.WebsocketHeartbeatJs({
         url: 'wss://covid.elogstation.com:8080',
-        pingTimeout: 10000,
-        pongTimeout: 5000,
+        pingTimeout: 5000,
+        pongTimeout: 3000,
     });
     // var connection = new WebSocket('wss://covid.elogstation.com:8080');
+
+    var values = {
+      total: 0,
+      death: 0,
+      recover: 0
+    };
+
+    var newValues = {
+      total: 0,
+      death: 0,
+      recover: 0
+    };
 
     connection.onopen = function () {
 
@@ -347,18 +372,29 @@
 
     // Log messages from the server
     connection.onmessage = function (e) {
-        console.log('message from server', e.data);
+        // console.log('message from server', e.data);
         //parse data
         var data = JSON.parse(e.data)
         //if e.data.typeOfChange == init, show init values
         if (data.typeOfChange == 'pong') {
           console.log('pong');
+          $('#liveButton').css({
+            color: '#FC3158'  
+          });
+          $('#liveButton').animate({
+            color: '#FC3158'  
+          }, 2000);
+          $('#liveButton').animate({
+            color: '#FFFFFF'  
+          }, 2000);
+
           return;
         }
             $('#days').html('<h1>' + data.data.TotalCases + '</H1><p>Total</p>');
             $('#hours').html('<h1>' + data.data.TotalDeaths + '</H1><p>Deaths</p>');
             $('#minutes').html('<h1>' + data.data.TotalRecovered + '</H1><p>Recovered</p>');
 
+          
         // }
 
         if(data.data.Country != null && data.data.Country != 'all'){
@@ -376,10 +412,10 @@
           } else {
             webAnimate('days','#5FC9F8');
           }
-          
-        }
 
-        if (data.typeOfChange == 'death') {
+          newValues.total = data.data.TotalCases;
+          
+        } else if (data.typeOfChange == 'death') {
           document.getElementById("death").play();
           
           if ($(document).width() < 700){
@@ -387,9 +423,10 @@
           } else {
             webAnimate('hours','#FC3158');
           }
-        }
 
-        if (data.typeOfChange == 'recover') {
+          newValues.death = data.data.TotalDeaths;
+
+        } else if (data.typeOfChange == 'recover') {
           document.getElementById("recover").play();
           
           if ($(document).width() < 700){
@@ -397,7 +434,43 @@
           } else {
             webAnimate('minutes','#53D769');
           }
+
+          newValues.recover = data.data.TotalRecovered;
+
+        } else {
+
+          values = {
+            total: data.data.TotalCases,
+            death: data.data.TotalDeaths,
+            recover: data.data.TotalRecovered
+          };
+
+          newValues = {
+            total: data.data.TotalCases,
+            death: data.data.TotalDeaths,
+            recover: data.data.TotalRecovered
+          };
+
         }
+
+        //set the marquee
+        // console.log(values)
+        // console.log(newValues)
+
+        var marqueeToShow = '';
+
+        if(newValues.total - values.total > 0){
+          marqueeToShow = ''+(newValues.total - values.total)+' New Cases. ';
+        }
+        if(newValues.death - values.death > 0){
+          marqueeToShow += ''+(newValues.death - values.death)+' New Deaths. ';
+        }
+        if(newValues.recover - values.recover > 0){
+          marqueeToShow += ''+(newValues.recover - values.recover)+' New Recoveries. ';
+        }
+
+        $('#newsFlash').html(marqueeToShow);  
+
     };
 
     //person chooses a country

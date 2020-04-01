@@ -53,12 +53,27 @@ function pushChanges(typeOfChange, country, data) {
     //fetch all users with specific country
     for (let key in clientAssociatedWithCountry) {
         if (clientAssociatedWithCountry[key] == country) {
-            webSockets[key].send(JSON.stringify({
+            try{
+                webSockets[key].send(JSON.stringify({
                 typeOfChange: typeOfChange,
                 country: country,
                 data: data
-            }));
+                }));
+            } catch (ex) {}
         }
+    }
+}
+
+function broadcastMessage(typeOfChange, data) {
+    //fetch all users with specific country
+    for (let key in clientAssociatedWithCountry) {
+            console.log(key, typeOfChange, data);
+            try{
+                webSockets[key].send(JSON.stringify({
+                    typeOfChange: typeOfChange,
+                    data: data
+                }));
+            } catch (ex) {}
     }
 }
 
@@ -105,23 +120,33 @@ wss.on('connection', ws => {
         clientAssociatedWithCountry[userID] = null;
     });
 
-    ws.on('message', country => {
-        console.log(userID)
-        console.log(country)
-
-        if(country == 'heartbeat'){
+    ws.on('message', data => {
+       
+        if(data == 'heartbeat'){
             ws.send(JSON.stringify({
                 typeOfChange: 'pong'
             }));
             return;
         }
+
+        console.log(userID)
+        console.log(data)
+
+        var data = JSON.parse(data);
+
+        if(data.messageType == 'customAudio'){
+            broadcastMessage('customAudio', data.customAudioUrl);
+            return;
+        }
         
-        clientAssociatedWithCountry[userID] = country;
-        ws.send(JSON.stringify({
-            typeOfChange: 'init',
-            country: country,
-            data: infoByCountry[country]
-        }));
+        if(data.messageType == 'changeUserCountry'){
+            clientAssociatedWithCountry[userID] = data.country;
+            ws.send(JSON.stringify({
+                typeOfChange: 'init',
+                country: data.country,
+                data: infoByCountry[data.country]
+            }));
+        }
     });
 
     clientAssociatedWithCountry[userID] = 'all';

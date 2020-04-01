@@ -321,7 +321,8 @@
 
   <script>
     let connection = new window.WebsocketHeartbeatJs({
-        url: 'wss://covid.elogstation.com:8080',
+        url: 'wss://localhost:8080',
+        // url: 'wss://covid.elogstation.com:8080',
         pingTimeout: 5000,
         pongTimeout: 3000,
     });
@@ -377,7 +378,7 @@
 
     // Log messages from the server
     connection.onmessage = function (e) {
-        // console.log('message from server', e.data);
+        console.log('message from server', e.data);
         //parse data
         var data = JSON.parse(e.data)
         //if e.data.typeOfChange == init, show init values
@@ -397,7 +398,7 @@
         }
 
         if(data.typeOfChange == 'customAudio'){
-          document.getElementById("customAudio").src = data.customAudio;
+          document.getElementById("customAudio").src = data.data;
           document.getElementById("customAudio").play();
 
         }
@@ -493,7 +494,11 @@
         var x = document.getElementById("selectedCountry").value;
         // document.getElementById('counterToCountry').innerHTML = <b>CORONA Virus</b> + x;
         console.log(x);
-        connection.send(x);
+        var sendValue = {
+          messageType: 'changeUserCountry',
+          country: x
+        }
+        connection.send(JSON.stringify(sendValue));
     }
 
 </script>

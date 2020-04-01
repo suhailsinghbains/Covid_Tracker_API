@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/favicon.png">
+
+    <title>Corona Virus - Counter</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/soon.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+  </head>
+
+
+  <!-- START BODY -->
+  <body class="nomobile">
+
+    <!-- START HEADER -->
+    <section id="header">
+        <div class="container">
+            <header>
+                <!-- HEADLINE -->
+                <h1 id="counterToCountrySrc" data-animated="GoIn"><b>CORONA Virus</b> Counter
+                </h1>
+                <p id="liveButton" style="position:absolute;
+                top:20px;
+                right:0;
+                margin: auto;
+                color: red;
+                background: white;
+                padding: 4px;
+               ">
+                <span class="glyphicon glyphicon-record"></span> LIVE</p>
+
+            </header>
+
+            
+
+            <form class="form-inline" role="form" id="sendCustomAudioForm">
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                  <input type="text" class="form-control" id="customAudioInput" placeholder="Enter audio url">
+                </div>
+                <button type="submit" class="btn btn-info">Submit</button>
+              </form> 
+
+        </div>
+        <!-- LAYER OVER THE SLIDER TO MAKE THE WHITE TEXTE READABLE -->
+        <div id="layer"></div>
+        <!-- END LAYER -->
+        <!-- START SLIDER -->
+        <div id="slider" class="rev_slider">
+            <ul>
+              <li data-transition="slidedown" data-slotamount="1" data-thumb="assets/img/slider/1.jpg">
+                <img src="assets/img/slider/1.jpg">
+              </li>
+            </ul>
+        </div>
+        <!-- END SLIDER -->
+
+    </section>
+    <!-- END HEADER -->
+
+    <audio id="total">
+      <source src="https://covid.elogstation.com/sounds/total.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="death">
+      <source src="https://covid.elogstation.com/sounds/death.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="recover">
+      <source src="https://covid.elogstation.com/sounds/recover.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="customAudio">
+      <source src="" type="audio/mpeg">
+    </audio>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/soon/plugins.js"></script>
+    <script src="assets/js/soon/jquery.themepunch.revolution.min.js"></script>
+    <script src="assets/js/soon/custom.js"></script>
+  </body>
+  <!-- END BODY -->
+  <script src="assets/js/wshb.js"></script>
+
+  <script>
+    let connection = new window.WebsocketHeartbeatJs({
+        url: 'wss://localhost:8080',
+        // url: 'wss://covid.elogstation.com:8080',
+        pingTimeout: 5000,
+        pongTimeout: 3000,
+    });
+
+    var values = {
+      total: 0,
+      death: 0,
+      recover: 0
+    };
+
+    var newValues = {
+      total: 0,
+      death: 0,
+      recover: 0
+    };
+
+    connection.onopen = function () {
+
+    };
+
+    // Log errors
+    connection.onerror = function (error) {
+        console.error('WebSocket Error ' + error);
+    };
+    
+    $(function () {
+        $('#sendCustomAudioForm').on('submit',function (e) {
+
+            var x = document.getElementById("customAudioInput").value;
+            console.log(x);
+            var sendValue = {
+                messageType: 'customAudio',
+                customAudioUrl: x
+            }
+            connection.send(JSON.stringify(sendValue));
+            
+            e.preventDefault();
+        });
+    });
+
+    function webAnimate(elementToAnimate, backgroundColorForElement){
+      $('#' + elementToAnimate).animate({
+        borderWidth: '10px',
+        backgroundColor: backgroundColorForElement
+      }, 1000);
+      $('#' + elementToAnimate).animate({
+        borderWidth: '4px',
+        backgroundColor: 'transparent'  
+      }, 1000);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '60px'}, 1000);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '48px'}, 1000);
+    }
+
+    function mobileAnimate(elementToAnimate, backgroundColorForElement){
+      $('#' + elementToAnimate).animate({
+        borderWidth: '6px',
+        backgroundColor: backgroundColorForElement
+      }, 800);
+      $('#' + elementToAnimate).animate({
+        borderWidth: '4px',
+        backgroundColor: 'transparent'  
+      }, 800);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '30px'}, 800);
+      $('#' + elementToAnimate + ' h1').animate({fontSize: '20px'}, 800);
+
+    }
+
+    // Log messages from the server
+    connection.onmessage = function (e) {
+        // console.log('message from server', e.data);
+        //parse data
+        var data = JSON.parse(e.data)
+        //if e.data.typeOfChange == init, show init values
+        if (data.typeOfChange == 'pong') {
+          console.log('pong');
+          $('#liveButton').css({
+            color: '#FC3158'  
+          });
+          $('#liveButton').animate({
+            color: '#FC3158'  
+          }, 2000);
+          $('#liveButton').animate({
+            color: '#FFFFFF'  
+          }, 2000);
+
+          return;
+        }
+
+    };
+
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162283949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-162283949-1');
+</script>
+
+
+</html>

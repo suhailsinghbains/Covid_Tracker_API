@@ -51,8 +51,6 @@
 
             </header>
 
-            
-
             <form class="form-inline" role="form" id="sendCustomAudioForm">
                 <div class="form-group">
                   <label class="sr-only" for="exampleInputEmail2">Email address</label>
@@ -110,8 +108,8 @@
 
   <script>
     let connection = new window.WebsocketHeartbeatJs({
-        url: 'wss://localhost:8080',
-        // url: 'wss://covid.elogstation.com:8080',
+        // url: 'wss://localhost:8080',
+        url: 'wss://covid.elogstation.com:8080',
         pingTimeout: 5000,
         pongTimeout: 3000,
     });

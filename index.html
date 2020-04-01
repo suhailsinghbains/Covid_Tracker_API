@@ -301,6 +301,10 @@
       <source src="https://covid.elogstation.com/sounds/recover.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="customAudio">
+      <source src="" type="audio/mpeg">
+    </audio>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -391,6 +395,13 @@
 
           return;
         }
+
+        if(data.typeOfChange == 'customAudio'){
+          document.getElementById("customAudio").src = data.customAudio;
+          document.getElementById("customAudio").play();
+
+        }
+
             $('#days').html('<h1>' + data.data.TotalCases + '</H1><p>Total</p>');
             $('#hours').html('<h1>' + data.data.TotalDeaths + '</H1><p>Deaths</p>');
             $('#minutes').html('<h1>' + data.data.TotalRecovered + '</H1><p>Recovered</p>');
